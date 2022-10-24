@@ -1,0 +1,23 @@
+body #fullscreen {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  height: 95%;
+  position: absolute;
+}
+
+.cred {
+  margin: 2px;
+  width: 50%;
+}
+
+button {
+  margin: 2px;
+}
+
+body #fullscreen #credentials {
+}
+
+body #fullscreen #terminal {
+  flex: 1;
+}

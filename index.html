@@ -1,59 +1,26 @@
 <!doctype html>
-  <html>
-    <head>
+<html>
+  <head>
     <meta charset="UTF-8" />
-    <style>
-      body #fullscreen {
-        display: flex;
-        flex-direction: column;
-        width: 99%;
-        height: 99%;
-        position: absolute; }
-      body #fullscreen #terminal {
-        flex: 1;
-        min-height: 0;
-      }
-    </style>
-      <link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
-      <script src="node_modules/xterm/lib/xterm.js"></script>
-      <script src="node_modules/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
-    </head>
-    <body>
-      <div id="fullscreen">
-        <div id="terminal"></div>
+    <link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="node_modules/xterm/lib/xterm.js"></script>
+    <script src="node_modules/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+  </head>
+  <body>
+    <div id="fullscreen">
+      <div id="credentials">
+        <input class="cred" id="project-id" type="text" placeholder="project-id"><br>
+        <input class="cred" id="device-id" type="text" placeholder="device-id"><br>
+        <input class="cred" id="api-key" type="text" placeholder="api-key"><br>
+        <button id="connect">Connect</button>
+        <button id="disconnect">Disconnect</button><br>
+        <label>Status:</label>
+        <label id='status'>Not connected</label>
       </div>
-      <script>
-        var term = new Terminal({ rows: 50 });
-        var fitAddon = new FitAddon.FitAddon();
-        term.loadAddon(fitAddon);
-        term.open(document.getElementById('terminal'));
-        fitAddon.fit();
-        term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ');
-        let input = [];
-        term.onKey(e => {
-          const code = e.key.charCodeAt(0);
-
-          // Echo input to local terminal
-          if (code == 127) {
-            term.write("\b \b");
-            input.push("\b \b");
-          } else {
-            term.write(e.key);
-            input.push(e.key);
-          }
-
-          if (e.key == '\r') {
-            // TODO: send line to device via RPC
-            console.log(input);
-            term.write('\r\n');
-            term.write(input.join(''));
-            term.write('\r\n$ ');
-            input = []
-          }
-        });
-        window.onresize = () => {
-          fitAddon.fit();
-        };
-      </script>
-    </body>
-  </html>
+      <div id="terminal"></div>
+      <input id="input" type="text" placeholder="Line input">
+      <script type="text/javascript" src="remote_shell.js"></script>
+    </div>
+  </body>
+</html>
